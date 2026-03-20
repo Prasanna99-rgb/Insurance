@@ -9,7 +9,7 @@ It predicts outcomes based on user input using a trained model (`Self.pkl`).
 
 ## 🚀 Live Demo
 
-🔗 Add your deployed link here (Streamlit Cloud / Render)
+🔗https://insurance-fvdy3aga7afd57cnhzndjy.streamlit.app/
 
 ---
 
