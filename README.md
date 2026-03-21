@@ -6,7 +6,7 @@ A professional Machine Learning web app built using **Streamlit** that predicts 
 
 ## 🚀 Live Demo
 
-👉 *(Add your Streamlit link here after deployment)*
+👉 *(https://insurance-gw24b6zbadpnmjghhs64vu.streamlit.app/)*
 
 ---
 
