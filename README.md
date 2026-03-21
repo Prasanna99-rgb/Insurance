@@ -1,88 +1,67 @@
-# 🤖 AI Prediction Web App
+# 💰 Insurance Cost Prediction App
 
-## 📌 Project Overview
-
-This project is a **Machine Learning web application** built using **Streamlit**.
-It predicts outcomes based on user input using a trained model (`Self.pkl`).
+A professional Machine Learning web app built using **Streamlit** that predicts medical insurance costs based on user inputs.
 
 ---
 
 ## 🚀 Live Demo
 
-🔗https://insurance-fvdy3aga7afd57cnhzndjy.streamlit.app/
+👉 *(Add your Streamlit link here after deployment)*
+
+---
+
+## 📌 Features
+
+* 🔐 Login System
+* 📊 Real-time Prediction
+* 📈 Interactive Graphs
+* 📥 Download Report (PDF)
+* 🎨 Beautiful UI
+* 📱 Responsive Layout
+
+---
+
+## 🧠 Machine Learning Model
+
+* Algorithm: Linear Regression
+* Features Used:
+
+  * Age
+  * BMI
+  * Number of Children
+  * Smoker Status
 
 ---
 
 ## 📂 Project Structure
 
 ```
-├── app.py              # Streamlit application
-├── Self.pkl            # Trained ML model
-├── scaler.pkl          # (Optional) Scaler file
-├── requirements.txt    # Dependencies
-└── README.md           # Project documentation
+insurance-app/
+│
+├── app.py
+├── Self.pkl
+├── requirements.txt
+├── README.md
 ```
 
 ---
 
-## ⚙️ Features
+## ⚙️ Installation
 
-* 📊 User-friendly interface
-* ⚡ Real-time prediction
-* 🎯 Accurate ML model integration
-* 📱 Responsive design
-* 📈 Probability/Confidence output (if classifier)
-
----
-
-## ▶️ Run Locally
-
-### 1️⃣ Clone the Repository
-
-```
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-```
-
-### 2️⃣ Install Dependencies
-
-```
+```bash
+git clone https://github.com/your-username/insurance-app.git
+cd insurance-app
 pip install -r requirements.txt
-```
-
-### 3️⃣ Run the App
-
-```
 streamlit run app.py
 ```
 
 ---
 
-## 🌐 Deployment (Streamlit Cloud)
-
-1. Push your project to GitHub
-2. Go to https://streamlit.io/cloud
-3. Click **New App**
-4. Select your repository
-5. Deploy 🚀
-
-
-
-## 🛠️ Tech Stack
-
-* Python 🐍
-* Streamlit 🎈
-* Scikit-learn 🤖
-* NumPy & Pandas 📊
-
----
-
-## 🙋‍♂️ Author
+## 👨‍💻 Author
 
 **Prasanna Deshmane**
 
 ---
 
-## ⭐ Support
+## ⭐ If you like this project, give it a star!
 
-If you like this project, give it a ⭐ on GitHub!
