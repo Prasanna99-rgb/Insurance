@@ -1,155 +1,65 @@
 import streamlit as st
-import pandas as pd
 import pickle
+import numpy as np
+import pandas as pd
 
-# ---------------- Page Config ----------------
-st.set_page_config(
-    page_title="Insurance AI Predictor",
-    page_icon="🏥",
-    layout="centered"
-)
+# ---- LOAD MODEL ----
+model = pickle.load(open("model_pickle.pkl", "rb"))
 
-# ---------------- Custom UI + Animation ----------------
-st.markdown("""
-<style>
+# ---- PAGE CONFIG ----
+st.set_page_config(page_title="Insurance Cost Predictor", page_icon="💰", layout="wide")
 
-/* Background Gradient Animation */
-.stApp {
-    background: linear-gradient(-45deg, #1f4037, #99f2c8, #4facfe, #00f2fe);
-    background-size: 400% 400%;
-    animation: gradientBG 10s ease infinite;
+# ---- TITLE ----
+st.title("💰 Insurance Cost Prediction App")
+st.markdown("Predict medical insurance charges based on user details")
+
+# ---- SIDEBAR INPUT ----
+st.sidebar.header("🧾 Enter User Details")
+
+age = st.sidebar.slider("Age", 18, 100, 30)
+bmi = st.sidebar.slider("BMI", 10.0, 50.0, 25.0)
+children = st.sidebar.slider("Number of Children", 0, 5, 1)
+
+sex = st.sidebar.selectbox("Sex", ["male", "female"])
+smoker = st.sidebar.selectbox("Smoker", ["yes", "no"])
+region = st.sidebar.selectbox("Region", ["northeast", "northwest", "southeast", "southwest"])
+
+# ---- ENCODING ----
+sex_val = 1 if sex == "male" else 0
+smoker_val = 1 if smoker == "yes" else 0
+
+# One-hot encoding for region
+region_dict = {
+    "northeast": [1, 0, 0, 0],
+    "northwest": [0, 1, 0, 0],
+    "southeast": [0, 0, 1, 0],
+    "southwest": [0, 0, 0, 1]
 }
 
-@keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
+region_vals = region_dict[region]
 
-/* Glass Card */
-.card {
-    background: rgba(255, 255, 255, 0.15);
-    padding: 25px;
-    border-radius: 20px;
-    backdrop-filter: blur(15px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    transition: 0.3s;
-}
+# ---- FINAL INPUT ----
+input_data = np.array([[age, sex_val, bmi, children, smoker_val] + region_vals])
 
-.card:hover {
-    transform: scale(1.02);
-}
+# ---- PREDICT ----
+if st.button("🚀 Predict Insurance Cost", use_container_width=True):
 
-/* Title */
-.title {
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold;
-    color: white;
-}
+    prediction = model.predict(input_data)[0]
 
-/* Button Animation */
-.stButton>button {
-    width: 100%;
-    border-radius: 12px;
-    height: 50px;
-    font-size: 18px;
-    font-weight: bold;
-    background: linear-gradient(45deg, #00c6ff, #0072ff);
-    color: white;
-    border: none;
-    transition: 0.3s;
-}
+    st.markdown(
+        f"""
+        <div style="
+            padding:20px;
+            border-radius:10px;
+            background-color:#e3f2fd;
+            text-align:center;">
+            <h2>💰 Estimated Insurance Cost</h2>
+            <h1 style="color:#1565c0;">₹ {prediction:,.2f}</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-.stButton>button:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 0px 20px rgba(0,114,255,0.7);
-}
-
-/* Result Glow */
-.result {
-    font-size: 28px;
-    font-weight: bold;
-    text-align: center;
-    color: #00ffcc;
-    animation: glow 1.5s infinite alternate;
-}
-
-@keyframes glow {
-    from { text-shadow: 0 0 10px #00ffcc; }
-    to { text-shadow: 0 0 25px #00ffcc; }
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-# ---------------- Load Model ----------------
-try:
-    model = pickle.load(open("model_pickle.pkl", "rb"))
-except Exception as e:
-    st.error(f"❌ Model load error: {e}")
-    st.stop()
-
-# ---------------- Title ----------------
-st.markdown('<div class="title">🏥 AI Insurance Predictor</div>', unsafe_allow_html=True)
-st.write("")
-
-# ---------------- Card Layout ----------------
-st.markdown('<div class="card">', unsafe_allow_html=True)
-
-col1, col2 = st.columns(2)
-
-with col1:
-    age = st.slider("Age", 18, 100, 30)
-    bmi = st.number_input("BMI", 15.0, 50.0, 25.0)
-
-with col2:
-    children = st.slider("Children", 0, 5, 0)
-    smoker = st.selectbox("Smoker", ["No", "Yes"])
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-st.write("")
-
-# ---------------- Prediction ----------------
-if st.button("🚀 Predict Charges"):
-
-    with st.spinner("Analyzing data... 🤖"):
-        try:
-            smoker_yes = 1 if smoker == "Yes" else 0
-
-            input_data = pd.DataFrame(
-                [[age, bmi, children, smoker_yes]],
-                columns=['age', 'bmi', 'children', 'smoker_yes']
-            )
-
-            prediction = model.predict(input_data)[0]
-
-            st.markdown(
-                f'<div class="result">💰 ${prediction:,.2f}</div>',
-                unsafe_allow_html=True
-            )
-
-            st.write("")
-
-            # Insights
-            if smoker == "Yes":
-                st.warning("⚠️ Smoking increases insurance cost")
-            else:
-                st.success("✅ Non-smoker → lower cost")
-
-            if bmi > 30:
-                st.warning("⚠️ High BMI may increase cost")
-
-            if age > 50:
-                st.warning("⚠️ Higher age → higher charges")
-
-        except Exception as e:
-            st.error(f"❌ Prediction error: {e}")
-
-# ---------------- Footer ----------------
+# ---- FOOTER ----
 st.markdown("---")
-st.markdown(
-    "<center style='color:white;'>🔥 AI Powered | Premium UI Design</center>",
-    unsafe_allow_html=True
-)
+st.caption("Built with ❤️ using Streamlit | Insurance ML App")
