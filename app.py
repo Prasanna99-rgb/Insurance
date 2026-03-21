@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 
 # -------------------------------
 # Page Config
@@ -9,22 +10,25 @@ import os
 st.set_page_config(page_title="Insurance Predictor", page_icon="💰", layout="wide")
 
 # -------------------------------
-# Custom CSS (Attractive UI)
+# Background Image + Styling
 # -------------------------------
 st.markdown("""
     <style>
+    .stApp {
+        background-image: url("https://images.unsplash.com/photo-1450101499163-c8848c66ca85");
+        background-size: cover;
+    }
     .main {
-        background-color: #f5f7fa;
+        background-color: rgba(255,255,255,0.85);
+        padding: 20px;
+        border-radius: 10px;
     }
     .stButton>button {
-        background-color: #4CAF50;
+        background-color: #ff4b4b;
         color: white;
         font-size: 18px;
         border-radius: 10px;
         padding: 10px 20px;
-    }
-    .stNumberInput, .stSelectbox {
-        background-color: #ffffff;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -43,58 +47,69 @@ model = pickle.load(open(model_path, "rb"))
 # -------------------------------
 # Sidebar
 # -------------------------------
-st.sidebar.title("📌 About App")
-st.sidebar.info(
-    "This app predicts insurance cost based on user inputs using a Machine Learning model."
-)
+st.sidebar.title("📌 About")
+st.sidebar.info("Insurance cost prediction using ML")
 
-st.sidebar.write("### 👨‍💻 Developed by")
-st.sidebar.write("Prasanna Deshmane")
+st.sidebar.write("👨‍💻 Prasanna Deshmane")
 
 # -------------------------------
-# Main Title
+# Title
 # -------------------------------
-st.title("💰 Insurance Cost Prediction App")
-st.write("Fill the details below to estimate insurance cost")
+st.title("💰 Insurance Cost Prediction")
+st.write("Predict your medical insurance cost instantly")
 
 # -------------------------------
-# Layout (2 Columns)
+# Inputs
 # -------------------------------
 col1, col2 = st.columns(2)
 
 with col1:
-    age = st.number_input("👤 Age", min_value=1, max_value=100, value=25)
-    bmi = st.number_input("⚖️ BMI", min_value=10.0, max_value=50.0, value=25.0)
+    age = st.slider("👤 Age", 18, 100, 25)
+    bmi = st.slider("⚖️ BMI", 10.0, 50.0, 25.0)
 
 with col2:
-    children = st.number_input("👶 Number of Children", min_value=0, max_value=10, value=0)
+    children = st.slider("👶 Children", 0, 5, 0)
     smoker = st.selectbox("🚬 Smoker", ["No", "Yes"])
 
 smoker_yes = 1 if smoker == "Yes" else 0
 
 # -------------------------------
-# Prediction Button
+# Prediction
 # -------------------------------
-st.markdown("---")
+if st.button("🔍 Predict Cost"):
+    features = np.array([[age, bmi, children, smoker_yes]])
+    prediction = model.predict(features)[0]
 
-if st.button("🔍 Predict Insurance Cost"):
-    try:
-        features = np.array([[age, bmi, children, smoker_yes]])
-        prediction = model.predict(features)
+    st.success(f"💸 Estimated Cost: ₹ {prediction:,.2f}")
 
-        st.success(f"💸 Estimated Insurance Cost: ₹ {prediction[0]:,.2f}")
+    # Insight
+    if smoker_yes == 1:
+        st.warning("⚠️ Smoking increases cost")
+    else:
+        st.info("✅ Lower risk profile")
 
-        # Extra Insight
-        if smoker_yes == 1:
-            st.warning("⚠️ Smoking increases insurance cost significantly!")
-        else:
-            st.info("✅ Non-smoker gets lower insurance cost.")
+    # -------------------------------
+    # Graph (Age vs Cost Trend)
+    # -------------------------------
+    st.subheader("📊 Cost vs Age Trend")
 
-    except Exception as e:
-        st.error(f"Error: {e}")
+    ages = list(range(18, 65))
+    costs = []
+
+    for a in ages:
+        pred = model.predict([[a, bmi, children, smoker_yes]])[0]
+        costs.append(pred)
+
+    fig, ax = plt.subplots()
+    ax.plot(ages, costs)
+    ax.set_xlabel("Age")
+    ax.set_ylabel("Predicted Cost")
+    ax.set_title("Insurance Cost Growth with Age")
+
+    st.pyplot(fig)
 
 # -------------------------------
 # Footer
 # -------------------------------
 st.markdown("---")
-st.caption("📊 Machine Learning Model Deployment using Streamlit")
+st.caption("🚀 Built with Streamlit | ML Deployment Project")
