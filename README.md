@@ -96,20 +96,8 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
----
 
-## 📸 Application Preview
 
-Add screenshots of your application here.
-
-### Home Page
-
-![Home Page](<img width="1906" height="967" alt="Screenshot 2026-06-03 154315" src="https://github.com/user-attachments/assets/62ffd651-2ecf-45cc-a385-13daf6ed72b9" />
-)
-
-### Prediction Dashboard
-
-![Dashboard](images/dashboard.png)
 
 ---
 
