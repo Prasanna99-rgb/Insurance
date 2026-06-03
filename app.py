@@ -16,14 +16,23 @@ st.set_page_config(page_title="Insurance AI App", layout="wide")
 # -------------------------------
 st.markdown("""
 <style>
+
 .stApp {
-    background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+    background-image: url("https://images.unsplash.com/photo-1450101499163-c8848c66ca85");
+    background-size: cover;
+    background-position: center;
 }
+
 .block-container {
-    background: white;
+    background: rgba(0,0,0,0.65);
     padding: 2rem;
     border-radius: 15px;
 }
+
+h1,h2,h3,h4,h5,h6,p,label {
+    color: white !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
