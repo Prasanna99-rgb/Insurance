@@ -6,7 +6,7 @@ A professional Machine Learning web app built using **Streamlit** that predicts 
 
 ## 🚀 Live Demo
 
-👉 *(https://insurance-gw24b6zbadpnmjghhs64vu.streamlit.app/)*
+👉 https://insurance-gw24b6zbadpnmjghhs64vu.streamlit.app
 
 ---
 
@@ -60,6 +60,7 @@ streamlit run app.py
 ## 👨‍💻 Author
 
 **Prasanna Deshmane**
+GitHub: https://github.com/Prasanna99-rgb
 
 ---
 
