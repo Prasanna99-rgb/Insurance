@@ -16,10 +16,59 @@ st.set_page_config(page_title="Insurance AI App", layout="wide")
 # -------------------------------
 st.markdown("""
 <style>
+
+/* Main Background */
 .stApp {
-    background-image: url("https://images.unsplash.com/photo-1450101499163-c8848c66ca85");
+    background: linear-gradient(
+        rgba(0,0,0,0.65),
+        rgba(0,0,0,0.65)
+    ),
+    url("https://images.unsplash.com/photo-1450101499163-c8848c66ca85");
     background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
+
+/* Main Content Box */
+.block-container {
+    background-color: rgba(255,255,255,0.90);
+    padding: 2rem;
+    border-radius: 15px;
+    color: black;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background-color: rgba(0,0,0,0.85);
+}
+
+/* Titles */
+h1, h2, h3 {
+    color: #0E1117 !important;
+    font-weight: bold;
+}
+
+/* Buttons */
+.stButton > button {
+    background-color: #0068c9;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding: 10px 20px;
+}
+
+.stButton > button:hover {
+    background-color: #004c99;
+}
+
+/* Input fields */
+.stTextInput input,
+.stNumberInput input,
+.stSelectbox,
+.stSlider {
+    background-color: white;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
