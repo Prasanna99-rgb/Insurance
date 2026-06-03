@@ -49,7 +49,7 @@ insurance-app/
 ## ⚙️ Installation
 
 ```bash
-git clone https://github.com/your-username/insurance-app.git
+git clone https://github.com/Prasanna99-rgb/insurance-app.git
 cd insurance-app
 pip install -r requirements.txt
 streamlit run app.py
